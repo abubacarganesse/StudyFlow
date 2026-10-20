@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0358b5">
+    <meta name="description" content="StudyFlow: organiza tarefas, progresso e recursos de estudo num só lugar.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <title>StudyFlow</title>
+</head>
+
+<body>
+
+<header class="cabecalho">
+    <div class="menu">
+        <button class="icone icone-menu" onclick="alternar_menu()" aria-label="Abrir menu"></button>
+    </div>
+
+    <div class="nome-logo">
+        <h1>
+            <span class="icone icone-logo"></span>
+            Study<span style="color: #0358b5;">Flow</span>
+        </h1>
+    </div>
+
+    <div class="perfil">
+        <button class="icone icone-perfil" id="botao_perfil" aria-label="Abrir perfil"></button>
+    </div>
+</header>
+
+<div class="fundo_menu" id="fundo_menu"></div>
+
+<nav class="menu_item" aria-label="Navegação principal">
+
+    <div class="topo_menu_item">
+        <h1>
+            <span class="icone icone-logo"></span>
+            Study<span style="color: #0679f4;">Flow</span>
+        </h1>
+
+        <div class="container-icone-ceta">
+            <button class="icone icone-ceta" onclick="alternar_menu()" aria-label="Fechar menu"></button>
+        </div>
+    </div>
+
+    <ul>
+        <li class="link-menu link_ativo">
+            <span class="icone icone-inicio"></span>
+            <a href="#inicio">Início</a>
+        </li>
+
+        <li class="link-menu">
+            <span class="icone icone-tarefas"></span>
+            <a href="#tarefas">Tarefas</a>
+        </li>
+
+        <li class="link-menu">
+            <span class="icone icone-estatisticas"></span>
+            <a href="#estatisticas">Estatísticas</a>
+        </li>
+
+        <li class="link-menu">
+            <span class="icone icone-recursos"></span>
+            <a href="#recursos">Recursos</a>
+        </li>
+    </ul>
+
+    <a href="#definicoes" class="link-definicoes link-menu">
+        <span class="icone icone-definicoes"></span>
+        Definições
+    </a>
+
+</nav>
+
+<main>
+
+    <!-- ===== INÍCIO ===== -->
+    <section id="inicio" class="secao secao_ativa">
+        <div class="secao_topo">
+            <div>
+                <h2 id="saudacao">Bem-vindo ao StudyFlow!</h2>
+                <p>Organiza os teus estudos num só lugar.</p>
+            </div>
+            <button type="button" class="botao botao_principal" id="atalho_nova_tarefa">
+                <span class="icone icone-mais"></span>Nova tarefa
+            </button>
+        </div>
+
+        <div class="grelha_stats tres">
+            <div class="cartao cartao_stat">
+                <span class="stat_valor" id="inicio_pendentes">0</span>
+                <span class="stat_rotulo">Tarefas pendentes</span>
+            </div>
+            <div class="cartao cartao_stat">
+                <span class="stat_valor" id="inicio_concluidas">0</span>
+                <span class="stat_rotulo">Tarefas concluídas</span>
+            </div>
+            <div class="cartao cartao_stat">
+                <span class="stat_valor" id="inicio_percentagem">0%</span>
+                <span class="stat_rotulo">Concluído</span>
+            </div>
+        </div>
+
+        <div class="cartao">
+            <h3>Progresso académico</h3>
+            <div class="barra" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="inicio_barra_caixa">
+                <div class="barra_preenchida" id="inicio_barra"></div>
+            </div>
+            <p class="texto_suave" id="inicio_progresso_texto"></p>
+        </div>
+
+        <div class="cartao">
+            <h3>Próximos prazos</h3>
+            <ul class="lista_prazos" id="lista_prazos"></ul>
+            <p class="texto_suave" id="vazio_prazos" hidden>Não tens tarefas pendentes com prazo.</p>
+        </div>
+    </section>
+
+    <!-- ===== TAREFAS ===== -->
+    <section id="tarefas" class="secao">
+        <div class="secao_topo">
+            <div>
+                <h2>As minhas tarefas</h2>
+                <p>Gere as tuas tarefas académicas.</p>
+            </div>
+            <button type="button" class="botao botao_principal" id="botao_nova_tarefa">
+                <span class="icone icone-mais"></span>Nova tarefa
+            </button>
+        </div>
+
+        <div class="filtros">
+            <label class="campo">Estado
+                <select id="filtro_estado">
+                    <option value="todas">Todas</option>
+                    <option value="pendentes">Pendentes</option>
+                    <option value="concluidas">Concluídas</option>
+                </select>
+            </label>
+            <label class="campo">Disciplina
+                <select id="filtro_disciplina">
+                    <option value="todas">Todas as disciplinas</option>
+                </select>
+            </label>
+            <label class="campo">Prioridade
+                <select id="filtro_prioridade">
+                    <option value="todas">Todas</option>
+                    <option value="alta">Alta</option>
+                    <option value="media">Média</option>
+                    <option value="baixa">Baixa</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="grelha_cartoes" id="lista_tarefas"></div>
+        <p class="vazio" id="vazio_tarefas" hidden></p>
+    </section>
+
+    <!-- ===== ESTATÍSTICAS ===== -->
+    <section id="estatisticas" class="secao">
+        <div class="secao_topo">
+            <div>
+                <h2>Estatísticas</h2>
+                <p>Acompanha o teu progresso.</p>
+            </div>
+        </div>
+
+        <p class="vazio" id="vazio_estatisticas" hidden>Ainda não há dados. Cria tarefas para ver o teu progresso aqui.</p>
+
+        <div id="conteudo_estatisticas">
+            <div class="grelha_stats">
+                <div class="cartao cartao_stat">
+                    <span class="stat_valor" id="est_total">0</span>
+                    <span class="stat_rotulo">Tarefas criadas</span>
+                </div>
+                <div class="cartao cartao_stat">
+                    <span class="stat_valor" id="est_concluidas">0</span>
+                    <span class="stat_rotulo">Concluídas</span>
+                </div>
+                <div class="cartao cartao_stat">
+                    <span class="stat_valor" id="est_pendentes">0</span>
+                    <span class="stat_rotulo">Pendentes</span>
+                </div>
+                <div class="cartao cartao_stat">
+                    <span class="stat_valor" id="est_percentagem">0%</span>
+                    <span class="stat_rotulo">Percentagem de conclusão</span>
+                </div>
+            </div>
+
+            <div class="cartao">
+                <h3>Progresso por disciplina</h3>
+                <div id="lista_progresso_disciplinas"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== RECURSOS ===== -->
+    <section id="recursos" class="secao">
+        <div class="secao_topo">
+            <div>
+                <h2>Recursos de estudo</h2>
+                <p>Guarda vídeos, artigos e documentação por disciplina.</p>
+            </div>
+            <button type="button" class="botao botao_principal" id="botao_novo_recurso">
+                <span class="icone icone-mais"></span>Novo recurso
+            </button>
+        </div>
+
+        <div id="lista_recursos"></div>
+        <p class="vazio" id="vazio_recursos" hidden>Ainda não guardaste recursos. Adiciona o primeiro link de estudo.</p>
+    </section>
+
+    <!-- ===== DEFINIÇÕES ===== -->
+    <section id="definicoes" class="secao">
+        <div class="secao_topo">
+            <div>
+                <h2>Definições</h2>
+                <p>Informações sobre a aplicação.</p>
+            </div>
+        </div>
+
+        <div class="cartao">
+            <h3>Sobre o StudyFlow</h3>
+            <p class="texto_suave">Aplicação para organizar tarefas, progresso e recursos de estudo num só lugar.</p>
+            <dl class="info">
+                <dt>Criador</dt>
+                <dd>Abubacar Ganesse</dd>
+                <dt>Versão</dt>
+                <dd>1.0.0</dd>
+            </dl>
+        </div>
+
+        <div class="cartao">
+            <h3>Dados guardados</h3>
+            <p class="texto_suave">As tarefas, os recursos e o perfil ficam guardados apenas neste navegador (armazenamento local). Não são sincronizados entre dispositivos e não substituem uma base de dados de servidor. Se limpares os dados do navegador, perdes esta informação.</p>
+            <button type="button" class="botao botao_perigo" id="botao_apagar_dados">
+                <span class="icone icone-eliminar"></span>Apagar todos os dados
+            </button>
+        </div>
+    </section>
+
+    <!-- ===== PERFIL ===== -->
+    <section id="perfil" class="secao">
+        <div class="secao_topo">
+            <div>
+                <h2>Perfil</h2>
+                <p>Estas informações são opcionais e ficam só neste navegador.</p>
+            </div>
+        </div>
+
+        <div class="cartao">
+            <form id="form_perfil" novalidate>
+                <label class="campo">Nome
+                    <input type="text" id="perfil_nome" maxlength="40" autocomplete="name">
+                    <span class="erro"></span>
+                </label>
+                <label class="campo">Curso
+                    <input type="text" id="perfil_curso" maxlength="60">
+                    <span class="erro"></span>
+                </label>
+                <label class="campo">Instituição
+                    <input type="text" id="perfil_instituicao" maxlength="60">
+                    <span class="erro"></span>
+                </label>
+                <button type="submit" class="botao botao_principal">Guardar perfil</button>
+            </form>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>© 2026 Abubacar Ganesse · Projecto de aprendizagem em desenvolvimento web.</p>
+</footer>
+
+<!-- ===== DIÁLOGO: TAREFA ===== -->
+<dialog id="dialogo_tarefa" class="dialogo">
+    <form id="form_tarefa" novalidate>
+        <div class="dialogo_topo">
+            <h3 id="titulo_dialogo_tarefa">Nova tarefa</h3>
+            <button type="button" class="botao_icone" data-fechar aria-label="Fechar">
+                <span class="icone icone-fechar"></span>
+            </button>
+        </div>
+
+        <label class="campo">Título
+            <input type="text" id="tarefa_titulo" maxlength="80">
+            <span class="erro"></span>
+        </label>
+
+        <label class="campo">Descrição (opcional)
+            <textarea id="tarefa_descricao" rows="3" maxlength="300"></textarea>
+            <span class="erro"></span>
+        </label>
+
+        <label class="campo">Disciplina
+            <input type="text" id="tarefa_disciplina" maxlength="50" list="lista_disciplinas" autocomplete="off">
+            <span class="erro"></span>
+        </label>
+
+        <label class="campo">Data limite
+            <input type="date" id="tarefa_prazo">
+            <span class="erro"></span>
+        </label>
+
+        <label class="campo">Prioridade
+            <select id="tarefa_prioridade">
+                <option value="alta">Alta</option>
+                <option value="media" selected>Média</option>
+                <option value="baixa">Baixa</option>
+            </select>
+            <span class="erro"></span>
+        </label>
+
+        <div class="dialogo_acoes">
+            <button type="button" class="botao botao_secundario" data-fechar>Cancelar</button>
+            <button type="submit" class="botao botao_principal">Guardar tarefa</button>
+        </div>
+    </form>
+</dialog>
+
+<!-- ===== DIÁLOGO: RECURSO ===== -->
+<dialog id="dialogo_recurso" class="dialogo">
+    <form id="form_recurso" novalidate>
+        <div class="dialogo_topo">
+            <h3>Novo recurso</h3>
+            <button type="button" class="botao_icone" data-fechar aria-label="Fechar">
+                <span class="icone icone-fechar"></span>
+            </button>
+        </div>
+
+        <label class="campo">Título
+            <input type="text" id="recurso_titulo" maxlength="80">
+            <span class="erro"></span>
+        </label>
+
+        <label class="campo">Disciplina
+            <input type="text" id="recurso_disciplina" maxlength="50" list="lista_disciplinas" autocomplete="off">
+            <span class="erro"></span>
+        </label>
+
+        <label class="campo">Descrição (opcional)
+            <textarea id="recurso_descricao" rows="2" maxlength="200"></textarea>
+            <span class="erro"></span>
+        </label>
+
+        <label class="campo">Endereço do recurso
+            <input type="url" id="recurso_url" placeholder="https://" inputmode="url" autocomplete="off">
+            <span class="erro"></span>
+        </label>
+
+        <div class="dialogo_acoes">
+            <button type="button" class="botao botao_secundario" data-fechar>Cancelar</button>
+            <button type="submit" class="botao botao_principal">Guardar recurso</button>
+        </div>
+    </form>
+</dialog>
+
+<datalist id="lista_disciplinas"></datalist>
+
+<div class="aviso" id="aviso" role="status" aria-live="polite"></div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
